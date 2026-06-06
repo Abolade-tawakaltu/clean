@@ -1,0 +1,202 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>CleanSmart Living | AI Sustainability Assistant</title>
+
+<style>
+:root {
+  --primary: #6D28D9;
+  --light: #F5F3FF;
+  --dark: #111827;
+  --gray: #374151;
+}
+
+body {
+  font-family: 'Inter', sans-serif;
+  margin: 0;
+  background: linear-gradient(135deg, #F5F3FF, #FFFFFF);
+  color: var(--gray);
+}
+
+.contain {
+  max-width: 1100px;
+  margin: auto;
+  padding: 20px;
+}
+
+section {
+  padding: 70px 20px;
+}
+
+.hero {
+  text-align: center;
+  background: var(--light);
+  border-radius: 20px;
+}
+
+h1 {
+  font-size: 42px;
+  color: var(--dark);
+}
+
+h2 {
+  color: var(--dark);
+  font-size: 30px;
+}
+
+button {
+  background: var(--primary);
+  color: white;
+  padding: 14px 22px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+button:hover {
+  transform: translateY(-2px);
+}
+
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+  gap: 20px;
+}
+
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+/* AI SECTION */
+.ai-box {
+  background: white;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.08);
+}
+
+input {
+  width: 70%;
+  padding: 14px;
+  border-radius: 10px;
+  border: 1px solid #ddd;
+  margin-right: 10px;
+}
+
+#response {
+  margin-top: 20px;
+  padding: 15px;
+  background: var(--light);
+  border-radius: 10px;
+  min-height: 60px;
+}
+</style>
+</head>
+
+<body>
+
+<!-- HERO -->
+<section class="hero container">
+  <h1>CleanSmart Living</h1>
+  <p>AI-powered sustainability assistant for smarter, eco-friendly home cleaning</p>
+  <button>Explore Solution</button>
+</section>
+
+<!-- PROBLEM -->
+<section class="contain">
+  <h2>Problem</h2>
+  <p>Many households waste energy, water, and time during daily cleaning due to lack of smart guidance.</p>
+</section>
+
+<!-- SOLUTION -->
+<section class="contain">
+  <h2>Solution</h2>
+  <p>An AI assistant that provides eco-friendly cleaning advice and energy-saving recommendations in real time.</p>
+</section>
+
+<!-- BENEFITS -->
+<section class="contain">
+  <h2>Benefits</h2>
+  <div class="grid">
+    <div class="card">Reduces energy consumption</div>
+    <div class="card">Promotes sustainable living</div>
+    <div class="card">Easy to use for everyone</div>
+    <div class="card">AI-powered guidance</div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section class="contain">
+  <h2>How It Works</h2>
+  <p>User asks a question → AI processes → Instant sustainability advice</p>
+</section>
+
+<!-- WHO IT'S FOR -->
+<section class="contain">
+  <h2>Who It’s For</h2>
+  <p>Students, families, and anyone who wants a cleaner and more sustainable home.</p>
+</section>
+
+<!-- AI SECTION -->
+<section class="contain">
+  <h2>Ask CleanSmart AI</h2>
+
+  <div class="ai-box">
+    <input id="userInput" placeholder="Ask about eco-friendly cleaning..." />
+    <button onclick="askAI()">Ask AI</button>
+
+    <div id="response"></div>
+  </div>
+</section>
+
+<!-- FOOTER -->
+<section class="contain">
+  <p style="text-align:center;">© 2026 CleanSmart Living - Built for Sustainability Hackathon</p>
+</section>
+
+<script>
+async function askAI() {
+  const input = document.getElementById("userInput").value;
+  const box = document.getElementById("response");
+
+  box.innerHTML = "Thinking... 🤖";
+
+  try {
+    const res = await fetch("https://api.openai.com/v1/chat/completions", {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+        "Authorization": "Bearer YOUR_API_KEY_HERE"
+      },
+      body: JSON.stringify({
+        model: "gpt-4o-mini",
+        messages: [
+          {
+            role: "system",
+            content: "You are a sustainability assistant helping users with eco-friendly home cleaning advice."
+          },
+          {
+            role: "user",
+            content: input
+          }
+        ]
+      })
+    });
+
+    const data = await res.json();
+    box.innerHTML = data.choices[0].message.content;
+
+  } catch (error) {
+    box.innerHTML = "Error connecting to AI.";
+  }
+}
+</script>
+
+</body>
+</html>
